@@ -30,57 +30,32 @@ window.onload = () => {
     canvas.setAttribute('width', width);
     canvas.setAttribute('height', height);
 
-    let ball = {
-        rotationY: 0,
-        rotationX: 0,
-        rotationZ: 0,
-        positionY: 0,
-        positionX: 0,
-        positionZ: 0
-    }
-
-    let gui =  new dat.GUI();
-    gui.add(ball, 'rotationX', -0.2, 0.2, 0.001);
-    gui.add(ball, 'rotationY', -0.2, 0.2, 0.001);
-    gui.add(ball, 'rotationZ', -0.2, 0.2, 0.001);
-
-    gui.add(ball, 'positionX', -5, 5, 0.1);
-    gui.add(ball, 'positionY', -5, 5, 0.1);
-    gui.add(ball, 'positionZ', -5, 5, 0.1);
-
     let renderer = new THREE.WebGLRenderer({canvas: canvas});
     renderer.setClearColor(0x000000);
 
     let scene = new THREE.Scene();
 
     let camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 5000);
-    camera.position.set(0, 0, 1000);
-    
+    camera.position.set(0, 0, 100);
+    camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );
 
     let light = new THREE.AmbientLight(0xffffff);
     scene.add(light);
-
-    let geometry = new THREE.SphereGeometry(200, 12, 12);
-    let material = new THREE.MeshBasicMaterial({color: 0xffffff, vertexColors: THREE.FaceColors});
-
-    for(var i = 0; i < geometry.faces.length; i++)
-    {
-        geometry.faces[i].color.setRGB(Math.random(), Math.random(), Math.random());
-    }
-
-    let mash = new THREE.Mesh(geometry, material);
-
-    scene.add(mash);
     
-    function loop()
-    {
-        mash.rotation.x += ball.rotationX;
-        mash.rotation.y += ball.rotationY;
-        mash.rotation.z += ball.rotationZ;
 
-        mash.position.x += ball.positionX;
-        mash.position.y += ball.positionY;
-        mash.position.z += ball.positionZ;
+    var material = new THREE.LineBasicMaterial( { color: 0xffffff } );
+
+    var geometry = new THREE.Geometry();
+    geometry.vertices.push(new THREE.Vector3( -10, 0, 0) );
+    geometry.vertices.push(new THREE.Vector3( 0, 10, 0) );
+    geometry.vertices.push(new THREE.Vector3( 10, 0, 10) );
+
+    var line = new THREE.Line( geometry, material );
+
+    scene.add(line);
+    
+    function loop() {
+        
 
         renderer.render(scene, camera);
         requestAnimationFrame(loop);
