@@ -19,8 +19,9 @@ window.onload = () => {
 
     let light = new THREE.AmbientLight(0xffffff);
     scene.add(light);
-
     
+
+    // adding red points that represent statr poistion
     let startPoints;
     let start;
 
@@ -32,7 +33,7 @@ window.onload = () => {
 
             for(var i = 0; i < startPoints.length; i++)
             {
-                geometry.vertices.push(new THREE.Vector3( startPoints[i].x * 20, startPoints[i].y * 20, startPoints[i].z * 20) );
+                geometry.vertices.push(new THREE.Vector3( startPoints[i].x, startPoints[i].y, startPoints[i].z) );
             }
 
             start = new THREE.Points( geometry, starsMaterial );
@@ -41,18 +42,20 @@ window.onload = () => {
         }
     );
 
+
+    // adding green points that represent result poistion
     let resultPoints;
     let result;
 
     loader.load('./points.txt', ( data ) => {
             resultPoints = JSON.parse(data);
 
-            var starsMaterial = new THREE.PointsMaterial( { color: 'green' } );
+            var starsMaterial = new THREE.PointsMaterial( { color: 'green', size: 3.0 } );
             var geometry = new THREE.Geometry();
 
             for(var i = 0; i < resultPoints.length; i++)
             {
-                geometry.vertices.push(new THREE.Vector3( resultPoints[i].x * 20, resultPoints[i].y * 20, resultPoints[i].z * 20) );
+                geometry.vertices.push(new THREE.Vector3( resultPoints[i].x, resultPoints[i].y, resultPoints[i].z) );
             }
 
             result = new THREE.Points( geometry, starsMaterial );
@@ -61,9 +64,15 @@ window.onload = () => {
         }
     );
     
+    var axisHelper = new THREE.AxisHelper( 500 );
+    scene.add( axisHelper );
+
+    
+    let controls = new THREE.OrbitControls( camera );
+    controls.target = new THREE.Vector3( 50, 50, 50);
+    console.log(controls.maxAzimuthAngle);
     
     function loop() {        
-        
 
         renderer.render(scene, camera);
         requestAnimationFrame(loop);
