@@ -14,7 +14,7 @@ window.onload = () => {
     let scene = new THREE.Scene();
 
     let camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 5000);
-    camera.position.set(0, 0, 200);
+    camera.position.set(100, -300, 200);
     camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );
 
     let light = new THREE.AmbientLight(0xffffff);
@@ -55,7 +55,7 @@ window.onload = () => {
 
             for(var i = 0; i < resultPoints.length; i++)
             {
-                geometry.vertices.push(new THREE.Vector3( resultPoints[i].x, resultPoints[i].y, resultPoints[i].z) );
+                geometry.vertices.push(new THREE.Vector3( resultPoints[i].x, resultPoints[i].y, resultPoints[i].z ));
             }
 
             result = new THREE.Points( geometry, starsMaterial );
