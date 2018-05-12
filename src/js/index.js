@@ -1,25 +1,25 @@
 window.onload = () => {
     let width = window.innerWidth;
     let height = window.innerHeight;
-    let canvas = document.getElementById('canvas');
 
-    var loader = new THREE.FileLoader();    
+    let canvas = document.getElementById('canvas');    
     
     canvas.setAttribute('width', width);
     canvas.setAttribute('height', height);
 
     let renderer = new THREE.WebGLRenderer({canvas: canvas});
-    renderer.setClearColor(0x000000);
+    renderer.setClearColor(0xffffff);
 
     let scene = new THREE.Scene();
 
     let camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 5000);
-    camera.position.set(100, -300, 200);
+    camera.position.set(0, 0, 100);
     camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );
 
     let light = new THREE.AmbientLight(0xffffff);
     scene.add(light);
     
+    var loader = new THREE.FileLoader();    
 
     // adding red points that represent statr poistion
     let startPoints;
@@ -28,7 +28,7 @@ window.onload = () => {
     loader.load('./start.txt', ( data ) => {
             startPoints = JSON.parse(data);
 
-            var starsMaterial = new THREE.PointsMaterial( { color: 'red' } );
+            var starsMaterial = new THREE.PointsMaterial( { color: 'black', size: 2.0 } );
             var geometry = new THREE.Geometry();
 
             for(var i = 0; i < startPoints.length; i++)
@@ -66,10 +66,10 @@ window.onload = () => {
     
     var axisHelper = new THREE.AxisHelper( 500 );
     scene.add( axisHelper );
-
     
     let controls = new THREE.OrbitControls( camera );
     controls.target = new THREE.Vector3( 50, 50, 50);
+    controls.maxAzimuthAngle = Infinity;
     console.log(controls.maxAzimuthAngle);
     
     function loop() {        
